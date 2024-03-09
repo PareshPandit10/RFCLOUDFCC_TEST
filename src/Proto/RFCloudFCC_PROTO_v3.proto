@@ -1,0 +1,77 @@
+syntax = "proto2";
+package servercomm;
+
+message deviceData
+{
+    required uint32 rocode = 1;
+	required uint32 msgId = 2;
+	repeated PumpStatus pumpStatus = 3; 
+	repeated PumpTrxn pumpTrxn = 4;
+    repeated TankInventory tankInventory = 5;
+    repeated DeviceStatus deviceStatus = 6;
+    repeated NozzleTotalizer nozzleTotalizer = 7;
+}
+
+message PumpStatus {
+    required uint32 autoId = 1; // PUMP AUTO ID
+    required uint32 status = 2;
+    required uint32 nozzleAutoId = 3;
+    required float trxnVolume = 4;
+    required float trxnAmount = 5;
+}
+
+message PumpTrxn {
+    required uint32 autoId = 1; // NOZZLE AUTO ID
+    required float trxnVolume = 2;
+    required float trxnAmount = 3;
+    required float unitRate = 4;
+    required double startVolumeTotalizer = 5;
+    required double endVolumeTotalizer = 6;
+    required uint32 presetType = 7;
+    required uint32 presetMode = 8;
+    optional float presetValue = 9;
+    required uint32 trxnId = 10;
+    required string trxnStartTime = 11;
+    required string trxnEndTime = 12;
+    required uint32 shiftAutoId = 13;
+    required uint32 mopType = 14;
+    optional uint32 vehicleNo = 15;   
+    optional uint32 mobileNo = 16;
+}
+
+message TankInventory {
+    required uint32 autoId = 1; // TANK AUTO ID
+    required uint32 inventoryType = 2; // 0 = STATUS 1 = PRICE CHANGE 2 = DAY OPEN 3 = DAY CLOSE 4 = SHIFT START 5 = SHIFT CLOSE 
+    required float productLevel = 3;
+    required float waterLevel =  4;
+    required float productVolume = 5;
+    required float waterVolume = 6;
+    required float ullage = 7;
+    required float temperature = 8;
+    optional float density = 9;
+    optional float tcDensity = 10;
+    required string inventoryTime = 11;
+    required uint32 state = 12;	// 0 = OFFLINE 1 = ONLINE 2 = BLOCK 3 = UNDER MAINTAINANCE 4 = DELIVERY IN PROGRESS
+    required uint32 shiftAutoId = 13;
+    required uint32 dayAutoId = 14;
+}
+
+message DeviceStatus{
+    required uint32 autoId = 1; // DEVICE AUTO ID 
+    required uint32 status = 2;
+    optional uint32 swVersion = 3;
+    optional uint32 hwVersion = 4;
+}
+
+message NozzleTotalizer {
+    required uint32 totalizerType = 1; // 0 = DAY OPEN TOTALIZER 1 = DAY CLOSE TOTALIZER  2 = SHIFT OPEN TOTALIZR 3 = SHIFT CLOSE TOTALIZER
+    required uint32 dayAutoId = 2;
+    required uint32 shiftAutoId = 3;
+    required uint32 nozzleAutoId = 4;
+    required double volumeTotalizer = 5;
+    required double totalVolumeSale = 6;
+    required double totalAmountSale = 7;
+}
+
+// To Compile Proto File with Protoc 22.2 to js Use this coomand 
+// protoc --js_out=import_style=commonjs,binary:. <file_name.proto>
