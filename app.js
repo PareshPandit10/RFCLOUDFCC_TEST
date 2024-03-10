@@ -26,12 +26,12 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
-
-const PORT = process.env.PORT || 8080;
-const IP = process.env.IP
 app.use('/heartBeat', (request, response) => {
   response.status(200).send(' SERVER IS LIVE ')
 })
+
+const PORT = process.env.PORT || 8000;
+const IP = process.env.IP
 
 const server = app.listen(PORT, IP, () => {
   console.log(' SERVER IS RUNNING ON IP: ' + IP + ' PORT: ' + PORT);
