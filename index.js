@@ -19,6 +19,10 @@ app.use(bodyParser.json({ limit: '1000mb' }));
 app.use(cors());
 app.use('/', route);
 
+app.use('/heartBeat', (request, response) => {
+  response.status(200).send(' SERVER IS LIVE ')
+})
+
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Add a wildcard route handler to serve the main HTML file
@@ -26,15 +30,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
-app.use('/heartBeat', (request, response) => {
-  response.status(200).send(' SERVER IS LIVE ')
-})
-
 const PORT = process.env.PORT || 8000;
-const IP = process.env.IP
 
-const server = app.listen(PORT, IP, () => {
-  console.log(' SERVER IS RUNNING ON IP: ' + IP + ' PORT: ' + PORT);
+const server = app.listen(PORT, async () => {
+  console.log(' SERVER IS RUNNING ON PORT: ' + PORT);
   initConnections();
 });
 
